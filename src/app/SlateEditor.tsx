@@ -1,14 +1,22 @@
 "use client"
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createEditor, Descendant, BaseEditor } from "slate";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
 import { withHistory } from "slate-history";
 
 // 初期値
-const initialValue: Descendant[] = [
+type initialValueType = 
+  [
+    {
+      type: string,
+      children: [{ text: string }],
+    },
+  ]
+
+const initialValue: initialValueType = [
   {
     type: 'Paragraph',
-    children: [{ text: "string" }],
+    children: [{ text: "" }],
   },
 ]
 const SlateApp = () => {
@@ -18,6 +26,9 @@ const SlateApp = () => {
   // エディタの内容を管理する状態
   const [value, setValue] = useState<Descendant[]>(initialValue);
 
+  useEffect(()=>{
+    console.log(JSON.stringify(value))
+  },[value])
   return (
     <Slate editor={editor} initialValue={initialValue} onChange={(newValue) => setValue(newValue)}>
       <Editable
